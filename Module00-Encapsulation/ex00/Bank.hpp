@@ -5,21 +5,28 @@
 #	include <iostream>
 #	include <vector>
 #	include <map>
-
-using namespace std;
-
-#	define  TClientAccount map< int, Account* >
+#	include "Account.hpp"
 
 class Bank
 {
 	private:
-		TClientAccount	clientAccounts;
-		int	liquidity;
+		vector< Account* >	_clientAccounts;
+		double	_liquidity;
 	public:
-			Bank(void);
-			~Bank(void);
-		TClientAccount const	getClientAccounts(void) const;
-		int const	getLiquidity(void) const;
+			Bank();
+			Bank(Bank const& that);
+			~Bank();
+		Bank&	operator=(Bank const& that);
+		vector< Account* > const&	getClientAccounts() const;
+		Account* const	getAccount(size_t id);
+		double const	getLiquidity() const;
+		void	setLiquidity(double liquidity);
+		void	createAccount(size_t id, double value);
+		void	deleteAccount(size_t id);
+		void	deposit(size_t id, double amount);
+		void	withdraw(size_t id, double amount);
+		void	transfer(size_t from, size_t to, double amount);
+		void	loan(size_t id, double amount);
 };
 
 // pass this to the cpp file
@@ -27,7 +34,7 @@ ostream&	operator<<(ostream& p_os, const Bank& p_bank)
 {
 	p_os << "bank informations : " << endl;
 	p_os << "liquidity : " << p_bank.getLiquidity() << endl;
-	for (TClientAccount::iterator b = p_bank.getClientAccounts().begin(); \
+	for (vector< Account* >::iterator b = p_bank.getClientAccounts().begin(); \
 		b != p_bank.getClientAccounts().end(); \
 		b++
 	) {
