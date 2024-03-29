@@ -60,6 +60,9 @@ void	Bank::setLiquidity(double liquidity)
 
 void	Bank::createAccount(size_t id, double value)
 {
+	if (value < 0) {
+		cerr << "Accounts can't start with negative values" << endl;
+	}
 	for (vector< Account* >::iterator b = this->_clientAccounts.begin(); \
 		b != this->_clientAccounts.end(); \
 		b++
@@ -87,16 +90,68 @@ void	Bank::deleteAccount(size_t id)
 	cerr << "ID not found" << endl;
 }
 
-void	Bank::deposit(size_t id, double amount);
-void	Bank::withdraw(size_t id, double amount);
-void	Bank::transfer(size_t from, size_t to, double amount);
-void	Bank::loan(size_t id, double amount);
+void	Bank::deposit(size_t id, double amount)
+{
+	Account*	account = this->getAccount(id);
+	double	interest = 0;
+
+	if (amount <= 0) {
+		cerr << "Deposits can't be negative or zero" << endl;
+		return ;
+	} else if (account == NULL) {
+		cerr << "Account not found" << endl;
+		return ;
+	}
+	interest = amount * const_cast< double& >(this->_bankPart);
+	amount -= interest;
+	this->setLiquidity(this->_liquidity + interest);
+	account->_value += amount;
+}
+
+void	Bank::withdraw(size_t id, double amount)
+{
+	Account*	account = this->getAccount(id);
+
+	if (amount <= 0) {
+		cerr << "What are you trying to do?" << endl;
+		return ;
+	} else if (account == NULL) {
+		cerr << "Account not found" << endl;
+		return ;
+	} else if (account->_value < amount) {
+		cerr << "Not enough money for withdraw" << endl;
+		return ;
+	}
+	account->_value = account->_value - amount;
+}
+
+void	Bank::loan(size_t id, double amount)
+{
+	Account*	account = this->getAccount(id);
+	double	interest = 0;
+
+	if (amount <= 0) {
+		cerr << "Cannot loan negative or zero" << endl;
+		return ;
+	} else if (account == NULL) {
+		cerr << "Account not found" << endl;
+		return ;
+	} else if (this->_liquidity < amount) {
+		cerr << "Cannot loan this amount" << endl;
+		return ;
+	}
+	interest = amount * const_cast< double& >(this->_bankPart);
+	amount -= interest;
+	this->_liquidity += interest;
+	account->_value += amount;
+}
 
 ostream&	operator<<(ostream& p_os, const Bank& p_bank)
 {
 	p_os << "bank informations : " << endl;
 	p_os << "liquidity : " << p_bank.getLiquidity() << endl;
-	for (vector< Account* >::iterator b = p_bank.getClientAccounts().begin(); \
+	for (vector< Account* >::iterator b = \
+			const_cast< vector< Account* >& >(p_bank.getClientAccounts()).begin(); \
 		b != p_bank.getClientAccounts().end(); \
 		b++
 	) {

@@ -19,7 +19,8 @@ class	Account
 		Account& operator=(Account const& that);
 		size_t const	getId() const;
 		double const	getValue() const;
-		void	setValue(double value);
+
+	friend class Bank;
 };
 
 ostream&	operator<<(ostream& p_os, const Account& p_account);

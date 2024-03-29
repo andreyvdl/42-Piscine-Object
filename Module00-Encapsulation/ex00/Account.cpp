@@ -28,11 +28,6 @@ double const	Account::getValue() const
 	return this->_value;
 }
 
-void	Account::setValue(double value)
-{
-	this->_value = value;
-}
-
 ostream&	operator<<(ostream& p_os, const Account& p_account)
 {
 	p_os << "[" << p_account.getId() << "] - [" << p_account.getValue() << "]";

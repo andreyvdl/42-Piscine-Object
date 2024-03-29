@@ -12,6 +12,7 @@ class Bank
 	private:
 		vector< Account* >	_clientAccounts;
 		double	_liquidity;
+		const double	_bankPart = 0.05;
 	public:
 			Bank();
 			Bank(Bank const& that);
@@ -25,22 +26,10 @@ class Bank
 		void	deleteAccount(size_t id);
 		void	deposit(size_t id, double amount);
 		void	withdraw(size_t id, double amount);
-		void	transfer(size_t from, size_t to, double amount);
 		void	loan(size_t id, double amount);
 };
 
 // pass this to the cpp file
-ostream&	operator<<(ostream& p_os, const Bank& p_bank)
-{
-	p_os << "bank informations : " << endl;
-	p_os << "liquidity : " << p_bank.getLiquidity() << endl;
-	for (vector< Account* >::iterator b = p_bank.getClientAccounts().begin(); \
-		b != p_bank.getClientAccounts().end(); \
-		b++
-	) {
-		p_os << *b << endl;
-	}
-	return p_os;
-}
+ostream&	operator<<(ostream& p_os, const Bank& p_bank);
 
 #endif
