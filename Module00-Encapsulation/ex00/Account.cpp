@@ -18,12 +18,12 @@ Account&	Account::operator=(Account const& that)
 
 Account::~Account() {};
 
-size_t const	Account::getId() const
+size_t	Account::getId() const
 {
 	return this->_id;
 }
 
-double const	Account::getValue() const
+double	Account::getValue() const
 {
 	return this->_value;
 }

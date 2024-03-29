@@ -1,6 +1,9 @@
 #include "Bank.hpp"
 
+const double	Bank::_bankPart = 0.05;
+
 static void	deleteAllClients(vector< Account* >& clients);
+static const Account*	getAccount(size_t id, vector< Account* >& accounts);
 
 Bank::Bank(): _liquidity(0) {};
 
@@ -19,9 +22,8 @@ Bank&	Bank::operator=(Bank const& that)
 	if (this != &that) {
 		this->_liquidity = that.getLiquidity();
 		deleteAllClients(this->_clientAccounts);
-		for (vector< Account* >::const_iterator b = \
-				that.getClientAccounts().begin(); \
-			b != that.getClientAccounts().end(); \
+		for (vector< Account* >::iterator b = const_cast< vector< Account* >& >(that._clientAccounts).begin(); \
+			b != that._clientAccounts.end(); \
 			b++
 		) {
 			this->_clientAccounts.push_back(new Account(**b));
@@ -30,25 +32,7 @@ Bank&	Bank::operator=(Bank const& that)
 	return *this;
 }
 
-vector< Account* > const&	Bank::getClientAccounts() const
-{
-	return this->_clientAccounts;
-}
-
-Account* const	Bank::getAccount(size_t id)
-{
-	for (vector< Account* >::iterator b = this->_clientAccounts.begin(); \
-		b != this->_clientAccounts.end(); \
-		b++
-	) {
-		if ((*b)->getId() == id) {
-			return *b;
-		}
-	}
-	return NULL;
-}
-
-double const	Bank::getLiquidity() const
+double	Bank::getLiquidity() const
 {
 	return this->_liquidity;
 }
@@ -83,6 +67,7 @@ void	Bank::deleteAccount(size_t id)
 	) {
 		if ((*b)->getId() == id) {
 			delete *b;
+			*b = NULL;
 			this->_clientAccounts.erase(b);
 			return ;
 		}
@@ -92,7 +77,8 @@ void	Bank::deleteAccount(size_t id)
 
 void	Bank::deposit(size_t id, double amount)
 {
-	Account*	account = this->getAccount(id);
+	Account*	account = \
+		const_cast< Account* >(getAccount(id, this->_clientAccounts));
 	double	interest = 0;
 
 	if (amount <= 0) {
@@ -110,7 +96,8 @@ void	Bank::deposit(size_t id, double amount)
 
 void	Bank::withdraw(size_t id, double amount)
 {
-	Account*	account = this->getAccount(id);
+	Account*	account = \
+		const_cast< Account* >(getAccount(id, this->_clientAccounts));
 
 	if (amount <= 0) {
 		cerr << "What are you trying to do?" << endl;
@@ -127,7 +114,8 @@ void	Bank::withdraw(size_t id, double amount)
 
 void	Bank::loan(size_t id, double amount)
 {
-	Account*	account = this->getAccount(id);
+	Account*	account = \
+		const_cast< Account* >(getAccount(id, this->_clientAccounts));
 	double	interest = 0;
 
 	if (amount <= 0) {
@@ -146,28 +134,63 @@ void	Bank::loan(size_t id, double amount)
 	account->_value += amount;
 }
 
+void	Bank::printClients(ostream& output) const
+{
+	vector< Account* > clients = this->_clientAccounts;
+	for (vector< Account* >::iterator b = const_cast< vector< Account* >& >(this->_clientAccounts).begin(); \
+		b != this->_clientAccounts.end(); \
+		b++
+	) {
+		output << **b << endl;
+	}
+}
+
+void	Bank::addAccount(Account* account)
+{
+	for (vector< Account* >::iterator b = this->_clientAccounts.begin(); \
+		b != this->_clientAccounts.end(); \
+		b++
+	) {
+		if ((*b)->getId() == account->getId()) {
+			cerr << "ID already exists, create a new account on our bank" << endl;
+			return ;
+		}
+	}
+	this->_clientAccounts.push_back(new Account(*account));
+}
+
 ostream&	operator<<(ostream& p_os, const Bank& p_bank)
 {
 	p_os << "bank informations : " << endl;
 	p_os << "liquidity : " << p_bank.getLiquidity() << endl;
-	for (vector< Account* >::iterator b = \
-			const_cast< vector< Account* >& >(p_bank.getClientAccounts()).begin(); \
-		b != p_bank.getClientAccounts().end(); \
-		b++
-	) {
-		p_os << *b << endl;
-	}
+	p_bank.printClients(p_os);
 	return p_os;
 }
 
 static void	deleteAllClients(vector< Account* >& clients)
 {
-	for (vector< Account* >::iterator b = clients.begin(); \
-		b != clients.end(); \
-		b++
-	) {
+	vector < Account* >::iterator b = clients.begin();
+
+	while (b != clients.end()) {
 		if (*b != NULL) {
 			delete *b;
+			*b = NULL;
+			clients.erase(b);
+		} else {
+			b++;
 		}
 	}
+}
+
+static const Account*	getAccount(size_t id, vector< Account* >& accounts)
+{
+	for (vector< Account* >::iterator b = accounts.begin(); \
+		b != accounts.end(); \
+		b++
+	) {
+		if ((*b)->getId() == id) {
+			return *b;
+		}
+	}
+	return NULL;
 }

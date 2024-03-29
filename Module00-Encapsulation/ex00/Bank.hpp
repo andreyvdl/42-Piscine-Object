@@ -12,24 +12,23 @@ class Bank
 	private:
 		vector< Account* >	_clientAccounts;
 		double	_liquidity;
-		const double	_bankPart = 0.05;
+		static const double	_bankPart;
 	public:
 			Bank();
 			Bank(Bank const& that);
 			~Bank();
 		Bank&	operator=(Bank const& that);
-		vector< Account* > const&	getClientAccounts() const;
-		Account* const	getAccount(size_t id);
-		double const	getLiquidity() const;
+		double	getLiquidity() const;
 		void	setLiquidity(double liquidity);
+		void	addAccount(Account* account);
 		void	createAccount(size_t id, double value);
 		void	deleteAccount(size_t id);
 		void	deposit(size_t id, double amount);
 		void	withdraw(size_t id, double amount);
 		void	loan(size_t id, double amount);
+		void	printClients(ostream& output) const;
 };
 
-// pass this to the cpp file
 ostream&	operator<<(ostream& p_os, const Bank& p_bank);
 
 #endif

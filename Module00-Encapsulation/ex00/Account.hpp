@@ -16,9 +16,9 @@ class	Account
 			Account(size_t id, double value);
 			Account(Account const& that);
 			~Account();
-		Account& operator=(Account const& that);
-		size_t const	getId() const;
-		double const	getValue() const;
+		Account&	operator=(Account const& that);
+		size_t	getId() const;
+		double	getValue() const;
 
 	friend class Bank;
 };
