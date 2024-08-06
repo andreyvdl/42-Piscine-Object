@@ -1,7 +1,7 @@
 NAME=bdb.exec
 SRC=$(wildcard source/*.cpp)
 OBJ=$(patsubst source/%.cpp, object/%.o, $(SRC))
-FLAGS=-std=c++98 -Wall -Wextra -Werror
+FLAGS=-std=c++98 -Wall -Wextra -Werror -I./include
 
 all: $(NAME)
 .PHONY: all
