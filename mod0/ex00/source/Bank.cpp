@@ -6,7 +6,7 @@
 /*   By: adantas- <adantas-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 16:38:43 by adantas-          #+#    #+#             */
-/*   Updated: 2024/08/05 17:58:45 by adantas-         ###   ########.fr       */
+/*   Updated: 2024/08/05 23:05:58 by adantas-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,18 +77,51 @@ void Bank::withdrawFrom(double amount, size_t id)
 
 void Bank::giveLoan(double amount, size_t id)
 {
-
+	if (amount < 0.0) {
+		std::cerr << "ERROR: Can't loan negative values!" << std::endl;
+		return;
+	}
+	else if (amount > this->_liquidity) {
+		std::cerr << "ERROR: Your loan request was denied!" << std::endl;
+		return;
+	}
+	for (t_account_it it = this->begin(); it != this->end(); it++) {
+		if (id == (*it)->_id) {
+			(*it)->_money += amount;
+			this->_liquidity -= amount;
+			return;
+		}
+	}
 }
 
-const Account*	getAccount(size_t id) const;
-Account*		getAccount(size_t id);
+Account* Bank::getAccount(size_t id) const
+{
+	for (t_account_cit it = this->begin(); it != this->end(); it++) {
+		if (id == (*it)->_id) return *it;
+	}
+	std::cerr << "ERROR: Client id not found!" << std::endl;
+	return NULL;
+}
+
+Account* Bank::getAccount(size_t id)
+{
+	for (t_account_it it = this->begin(); it != this->end(); it++) {
+		if (id == (*it)->_id) return *it;
+	}
+	std::cerr << "ERROR: Client id not found!" << std::endl;
+	return NULL;
+}
 
 std::ostream& operator<<(std::ostream& os, const Bank& that)
 {
 	os << "Bank informations: " << std::endl;
 	os << "Liquidity:" << that.getLiquidity() << std::endl;
 	for (t_account_cit it = that.begin(); it != that.end(); it++)
-		os << *it << std::endl;
+		os << (**it) << std::endl;
 	
 	return os;
 }
+
+
+
+
