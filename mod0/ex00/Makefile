@@ -2,14 +2,15 @@ NAME=bdb.exec
 SRC=$(wildcard source/*.cpp)
 OBJ=$(patsubst source/%.cpp, object/%.o, $(SRC))
 FLAGS=-std=c++98 -Wall -Wextra -Werror -I./include
+INCLUDES=$(wildcard include/*.hpp)
 
 all: $(NAME)
 .PHONY: all
 
-$(NAME): object $(OBJ)
+$(NAME): object $(OBJ) $(INCLUDES)
 	c++ $(FLAGS) $(OBJ) -o $(NAME)
 
-object/%.o: source/%.cpp
+object/%.o: source/%.cpp include/%.hpp # 5D chess?
 	c++ $(FLAGS) -c $< -o $@
 
 object:

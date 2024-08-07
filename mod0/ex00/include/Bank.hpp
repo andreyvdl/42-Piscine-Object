@@ -6,7 +6,7 @@
 /*   By: adantas- <adantas-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 16:36:44 by adantas-          #+#    #+#             */
-/*   Updated: 2024/08/05 23:02:56 by adantas-         ###   ########.fr       */
+/*   Updated: 2024/08/07 16:58:20 by adantas-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ private:
 
 public:
 	Bank(void): _liquidity(0.0), _clients( t_account() ) {}
+	~Bank();
 
 	void			addClient(double deposit);
 	void			removeClient(size_t id);

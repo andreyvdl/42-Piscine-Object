@@ -6,13 +6,19 @@
 /*   By: adantas- <adantas-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/05 16:38:43 by adantas-          #+#    #+#             */
-/*   Updated: 2024/08/05 23:05:58 by adantas-         ###   ########.fr       */
+/*   Updated: 2024/08/07 16:54:35 by adantas-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <iostream>
 #include <ostream>
 #include "../include/Bank.hpp"
+
+Bank::~Bank()
+{
+	for (t_account_cit it = this->begin(); it != this->end(); it++)
+		delete *it;
+}
 
 void Bank::addClient(double deposit)
 {
