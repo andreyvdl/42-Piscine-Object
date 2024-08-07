@@ -6,7 +6,7 @@
 /*   By: adantas- <adantas-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 11:09:50 by adantas-          #+#    #+#             */
-/*   Updated: 2024/08/06 17:31:47 by adantas-         ###   ########.fr       */
+/*   Updated: 2024/08/07 17:02:43 by adantas-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@
 Vector2::Vector2(float x, float y)
 {
 	if (x < 0.0f || y < 0.0f) {
-		std::cout << "PLEASE FOR THE LOVE OF GOD DON'T ADD A NEGATIVE VECTOR" << std::endl;
 		x = (x < 0.0f ? 0 : x);
 		y = (y < 0.0f ? 0 : y);
 	}

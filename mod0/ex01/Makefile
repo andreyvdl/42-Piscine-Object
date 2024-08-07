@@ -2,17 +2,18 @@ NAME=vector.exec
 SRC=$(wildcard source/*.cpp)
 OBJ=$(patsubst source/%.cpp, object/%.o, $(SRC))
 FLAGS=-std=c++98 -Wall -Wextra -Werror -I./include
+INCLUDES=$(wildcard include/*.hpp)
 
 all: $(NAME)
 .PHONY: all
 
-$(NAME): object $(OBJ)
+$(NAME): object $(OBJ) $(INCLUDES)
 	c++ $(FLAGS) $(OBJ) -o $@
 
 object:
 	mkdir -p $@
 
-object/%.o: source/%.cpp
+object/%.o: source/%.cpp $(INCLUDES)
 	c++ $(FLAGS) -c $< -o $@
 
 clean:

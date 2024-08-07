@@ -10,7 +10,7 @@ all: $(NAME)
 $(NAME): object $(OBJ) $(INCLUDES)
 	c++ $(FLAGS) $(OBJ) -o $(NAME)
 
-object/%.o: source/%.cpp include/%.hpp # 5D chess?
+object/%.o: source/%.cpp $(INCLUDES)
 	c++ $(FLAGS) -c $< -o $@
 
 object:
