@@ -6,7 +6,7 @@
 /*   By: adantas- <adantas-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 11:13:05 by adantas-          #+#    #+#             */
-/*   Updated: 2024/08/08 15:07:31 by adantas-         ###   ########.fr       */
+/*   Updated: 2024/08/12 11:28:25 by adantas-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 # include "Position.hpp"
 # include "Statistic.hpp"
 # include "Shovel.hpp"
+# include <map>
 
 /*
 *	Composição é o ato de construir coisas complexas com coisas simples;
@@ -30,7 +31,8 @@ class Worker
 private:
 	Position _coordonnee;
 	Statistic _stat;
-	Shovel* _shovel; // should not know who is it owner
+	Shovel* _shovel;
+	static std::map<Shovel*, Worker*> _helper;
 
 public:
 	Worker();
@@ -40,8 +42,8 @@ public:
 
 	Worker& operator=(const Worker& that);
 
+	void removeShovel(Shovel* shovel);
 	void pickShovel(Shovel* shovel);
-	void removeShovel();
 	Position getCoordonnee() const;
 	Position getCoordonnee();
 	Statistic getStat() const;

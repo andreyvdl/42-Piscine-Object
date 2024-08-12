@@ -6,7 +6,7 @@
 /*   By: adantas- <adantas-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 12:03:56 by adantas-          #+#    #+#             */
-/*   Updated: 2024/08/08 16:22:05 by adantas-         ###   ########.fr       */
+/*   Updated: 2024/08/12 16:00:04 by adantas-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,12 @@ int main()
 	Worker thomas(Position(42, 21, 10), Statistic(5, 1500), pa); 
 	std::cout << "thomas:" << std::endl << thomas << std::endl;
 	std::cout << " ----- " << std::endl << std::endl;
-	pa.use();
+	pa->use();
 	Worker john(thomas);
 	std::cout << "john:" << std::endl << john << std::endl;
 	std::cout << " ----- " << std::endl << std::endl;
 	Worker zack(thomas);
 	zack = bob;
 	std::cout << "zack:" << std::endl << zack << std::endl;
+	delete pa;
 }

@@ -6,12 +6,14 @@
 /*   By: adantas- <adantas-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 11:51:10 by adantas-          #+#    #+#             */
-/*   Updated: 2024/08/08 16:22:04 by adantas-         ###   ########.fr       */
+/*   Updated: 2024/08/12 15:45:15 by adantas-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/Worker.hpp"
 #include <sstream>
+
+std::map<Shovel*, Worker*> Worker::_helper = std::map<Shovel*, Worker*>();
 
 Worker::Worker():
 _coordonnee(Position()), _stat(Statistic()), _shovel(NULL)
@@ -30,6 +32,8 @@ Worker::Worker(Position pos, Statistic stat, Shovel* shovel):
 _coordonnee(pos), _stat(stat), _shovel(shovel)
 {
 	// std::cerr << "New Worker with values!" << std::endl;
+	if (shovel != NULL)
+		this->_helper.insert(std::pair<Shovel*, Worker*>(shovel, this));
 }
 
 Worker::~Worker()
@@ -43,7 +47,7 @@ Worker& Worker::operator=(const Worker& that)
 	if (this != &that) {
 		this->_coordonnee = that._coordonnee;
 		this->_stat = that._stat;
-		this->_shovel = that._shovel;
+		this->pickShovel(that._shovel);
 	}
 
 	return *this;
@@ -51,16 +55,44 @@ Worker& Worker::operator=(const Worker& that)
 
 void Worker::pickShovel(Shovel* shovel)
 {
-	std::cerr << "Trying picking shovel... ";
-	std::cerr << (shovel != NULL ? "SUCCESS!" : "FAILED!") << std::endl;
+	if (shovel == NULL) {
+		std::cerr << "No shovel to pickup!" << std::endl;
+		return;
+	}
 
-	this->_shovel = shovel;
+	std::map<Shovel*, Worker*>::iterator it = this->_helper.find(shovel);
+	if (it == this->_helper.end()) {
+		// std::cerr << "Shovel picked!" << std::endl;
+		this->_helper.insert(std::pair<Shovel*, Worker*>(shovel, this));
+		this->_shovel = shovel;
+	}
+
+	else {
+		std::cerr << "Hey bro, i need this shovel!" << std::endl;
+		it->second->removeShovel(shovel);
+		this->_helper.insert(std::pair<Shovel*, Worker*>(shovel, this));
+		this->_shovel = shovel;
+	}
+
 }
 
-void Worker::removeShovel()
+void Worker::removeShovel(Shovel* shovel)
 {
 	std::cerr << "Shovel removed!" << std::endl;
+	this->_helper.erase(shovel);
 	this->_shovel = NULL;
+}
+
+Shovel* Worker::getShovel() const
+{
+	// std::cerr << "Worker const shovel getter!" << std::endl;
+	return this->_shovel;
+}
+
+Shovel* Worker::getShovel()
+{
+	// std::cerr << "Worker shovel getter!" << std::endl;
+	return this->_shovel;
 }
 
 Position Worker::getCoordonnee() const
@@ -93,7 +125,10 @@ std::ostream& operator<<(std::ostream& os, const Worker& that)
 	// std::cerr << "Worker <<operator!" << std::endl;
 	ss << "Worker attributes:" << std::endl;
 	ss << "Coordonee: " << that.getCoordonnee() << "Stat: " << that.getStat()
-		<< "Shovel: " << that.getShovel() << std::endl << *that.getShovel();
+		<< "Shovel: " << that.getShovel();
+	if (that.getShovel() != NULL)
+		ss << std::endl << *that.getShovel();
+
 	os << ss.str();
 	return os;
 }
