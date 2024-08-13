@@ -6,13 +6,14 @@
 /*   By: adantas- <adantas-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:06:53 by adantas-          #+#    #+#             */
-/*   Updated: 2024/08/12 13:23:57 by adantas-         ###   ########.fr       */
+/*   Updated: 2024/08/12 18:02:40 by adantas-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef SHOVEL_HPP
 # define SHOVEL_HPP
 # include <iostream>
+# include "ATool.hpp"
 
 /*
 *	Agregação tem certa relação com composição, porém na agregação um objeto
@@ -26,11 +27,8 @@
 *		controla o tempo de vida delas.
 *	source: https://www.learncpp.com/cpp-tutorial/aggregation/
 */
-class Shovel
+class Shovel: public Tool
 {
-private:
-	size_t	_numberOfUses;
-
 public:
 	Shovel();
 	Shovel(const Shovel& that);
@@ -40,8 +38,6 @@ public:
 	Shovel& operator=(const Shovel& that);
 
 	void use();
-	size_t getNbrOfUses() const;
-	size_t getNbrOfUses();
 };
 
 std::ostream& operator<<(std::ostream& os, const Shovel& that);

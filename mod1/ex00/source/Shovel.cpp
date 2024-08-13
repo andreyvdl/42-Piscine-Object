@@ -6,7 +6,7 @@
 /*   By: adantas- <adantas-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 13:12:56 by adantas-          #+#    #+#             */
-/*   Updated: 2024/08/12 15:30:53 by adantas-         ###   ########.fr       */
+/*   Updated: 2024/08/12 18:11:22 by adantas-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,20 +14,21 @@
 #include <sstream>
 
 Shovel::Shovel():
-_numberOfUses(0)
+Tool()
 {
 	// std::cerr << "New Shovel created!" << std::endl;
+	
 }
 
 Shovel::Shovel(const Shovel& that):
-_numberOfUses(0)
+Tool()
 {
 	// std::cerr << "New Shovel copied!" << std::endl;
 	*this = that;
 }
 
 Shovel::Shovel(const size_t uses):
-_numberOfUses(uses)
+Tool(uses)
 {
 	// std::cerr << "New Shovel with values created!" << std::endl;
 }
@@ -55,18 +56,6 @@ void Shovel::use()
 	}
 	// std::cerr << "Shovel used!" << std::endl;
 	--this->_numberOfUses;
-}
-
-size_t Shovel::getNbrOfUses() const
-{
-	// std::cerr << "Shovel const numberOfUses getter!" << std::endl;
-	return this->_numberOfUses;
-}
-
-size_t Shovel::getNbrOfUses()
-{
-	// std::cerr << "Shovel numberOfUses getter!" << std::endl;
-	return this->_numberOfUses;
 }
 
 std::ostream& operator<<(std::ostream& os, const Shovel& that)

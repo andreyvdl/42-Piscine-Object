@@ -6,34 +6,34 @@
 /*   By: adantas- <adantas-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 11:51:10 by adantas-          #+#    #+#             */
-/*   Updated: 2024/08/12 15:45:15 by adantas-         ###   ########.fr       */
+/*   Updated: 2024/08/13 11:32:34 by adantas-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/Worker.hpp"
 #include <sstream>
 
-std::map<Shovel*, Worker*> Worker::_helper = std::map<Shovel*, Worker*>();
+std::map<Tool*, Worker*> Worker::_helper = std::map<Tool*, Worker*>();
 
 Worker::Worker():
-_coordonnee(Position()), _stat(Statistic()), _shovel(NULL)
+_coordonnee(Position()), _stat(Statistic()), _tools(std::vector<Tool*>())
 {
 	// std::cerr << "New Worker created!" << std::endl;
 }
 
 Worker::Worker(const Worker& that):
-_coordonnee(Position()), _stat(Statistic()), _shovel(NULL)
+_coordonnee(Position()), _stat(Statistic()), _tools(std::vector<Tool*>())
 {
 	// std::cerr << "New Worker copied!" << std::endl;
 	*this = that;
 }
 
-Worker::Worker(Position pos, Statistic stat, Shovel* shovel):
-_coordonnee(pos), _stat(stat), _shovel(shovel)
+Worker::Worker(Position pos, Statistic stat, std::vector<Tool*> tools):
+_coordonnee(pos), _stat(stat)
 {
 	// std::cerr << "New Worker with values!" << std::endl;
-	if (shovel != NULL)
-		this->_helper.insert(std::pair<Shovel*, Worker*>(shovel, this));
+	for (std::vector<Tool*>::iterator it = tools.begin(); it != tools.end(); ++it)
+		this->pickTool(*it);
 }
 
 Worker::~Worker()
@@ -47,52 +47,58 @@ Worker& Worker::operator=(const Worker& that)
 	if (this != &that) {
 		this->_coordonnee = that._coordonnee;
 		this->_stat = that._stat;
-		this->pickShovel(that._shovel);
+		for (size_t i = 0; i < that._tools.size(); i++)
+			this->pickTool(that._tools[i]);
 	}
 
 	return *this;
 }
 
-void Worker::pickShovel(Shovel* shovel)
+void Worker::pickTool(Tool* tool)
 {
-	if (shovel == NULL) {
-		std::cerr << "No shovel to pickup!" << std::endl;
+	if (tool == NULL) {
+		std::cerr << "No tool to pickup!" << std::endl;
 		return;
 	}
 
-	std::map<Shovel*, Worker*>::iterator it = this->_helper.find(shovel);
+	std::map<Tool*, Worker*>::iterator it = this->_helper.find(tool);
 	if (it == this->_helper.end()) {
-		// std::cerr << "Shovel picked!" << std::endl;
-		this->_helper.insert(std::pair<Shovel*, Worker*>(shovel, this));
-		this->_shovel = shovel;
+		std::cerr << "Tool picked!" << std::endl;
+		this->_helper.insert(std::pair<Tool*, Worker*>(tool, this));
+		this->_tools.push_back(tool);
 	}
 
 	else {
-		std::cerr << "Hey bro, i need this shovel!" << std::endl;
-		it->second->removeShovel(shovel);
-		this->_helper.insert(std::pair<Shovel*, Worker*>(shovel, this));
-		this->_shovel = shovel;
+		std::cerr << "Hey bro, i need this tool!" << std::endl;
+		it->second->removeTool(tool);
+		this->_helper.insert(std::pair<Tool*, Worker*>(tool, this));
+		this->_tools.push_back(tool);
 	}
 
 }
 
-void Worker::removeShovel(Shovel* shovel)
+void Worker::removeTool(Tool* tool)
 {
-	std::cerr << "Shovel removed!" << std::endl;
-	this->_helper.erase(shovel);
-	this->_shovel = NULL;
+	std::cerr << "Tool removed!" << std::endl;
+	this->_helper.erase(tool);
+	for (std::vector<Tool*>::iterator it = this->_tools.begin(); it != this->_tools.end(); ++it) {
+		if (*it == tool) {
+			this->_tools.erase(it);
+			break;
+		}
+	}
 }
 
-Shovel* Worker::getShovel() const
+std::vector<Tool*> Worker::getTools() const
 {
-	// std::cerr << "Worker const shovel getter!" << std::endl;
-	return this->_shovel;
+	std::cerr << "Worker const tool getter!" << std::endl;
+	return this->_tools;
 }
 
-Shovel* Worker::getShovel()
+std::vector<Tool*> Worker::getTools()
 {
-	// std::cerr << "Worker shovel getter!" << std::endl;
-	return this->_shovel;
+	std::cerr << "Worker tool getter!" << std::endl;
+	return this->_tools;
 }
 
 Position Worker::getCoordonnee() const
@@ -125,9 +131,9 @@ std::ostream& operator<<(std::ostream& os, const Worker& that)
 	// std::cerr << "Worker <<operator!" << std::endl;
 	ss << "Worker attributes:" << std::endl;
 	ss << "Coordonee: " << that.getCoordonnee() << "Stat: " << that.getStat()
-		<< "Shovel: " << that.getShovel();
-	if (that.getShovel() != NULL)
-		ss << std::endl << *that.getShovel();
+		<< "Tools: ";
+	for (size_t i = 0; i < that.getTools().size(); ++i)
+		ss << &that.getTools()[i] << " | " << *(that.getTools()[i]);
 
 	os << ss.str();
 	return os;

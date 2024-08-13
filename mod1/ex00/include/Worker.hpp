@@ -6,7 +6,7 @@
 /*   By: adantas- <adantas-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 11:13:05 by adantas-          #+#    #+#             */
-/*   Updated: 2024/08/12 11:28:25 by adantas-         ###   ########.fr       */
+/*   Updated: 2024/08/12 18:48:03 by adantas-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,11 @@
 # define WORKER_HPP
 # include "Position.hpp"
 # include "Statistic.hpp"
+# include "ATool.hpp"
 # include "Shovel.hpp"
+# include "Hammer.hpp"
 # include <map>
+# include <vector>
 
 /*
 *	Composição é o ato de construir coisas complexas com coisas simples;
@@ -31,25 +34,25 @@ class Worker
 private:
 	Position _coordonnee;
 	Statistic _stat;
-	Shovel* _shovel;
-	static std::map<Shovel*, Worker*> _helper;
+	std::vector<Tool*> _tools;
+	static std::map<Tool*, Worker*> _helper;
 
 public:
 	Worker();
 	Worker(const Worker& that);
-	Worker(Position pos, Statistic stat, Shovel* shovel);
+	Worker(Position pos, Statistic stat, std::vector<Tool*> tools);
 	~Worker();
 
 	Worker& operator=(const Worker& that);
 
-	void removeShovel(Shovel* shovel);
-	void pickShovel(Shovel* shovel);
+	void removeTool(Tool* tool);
+	void pickTool(Tool* tool);
 	Position getCoordonnee() const;
 	Position getCoordonnee();
 	Statistic getStat() const;
 	Statistic getStat();
-	Shovel* getShovel() const;
-	Shovel* getShovel();
+	std::vector<Tool*> getTools() const;
+	std::vector<Tool*> getTools();
 };
 
 std::ostream& operator<<(std::ostream& os, const Worker& that);
