@@ -6,7 +6,7 @@
 /*   By: adantas- <adantas-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 11:13:05 by adantas-          #+#    #+#             */
-/*   Updated: 2024/08/12 18:48:03 by adantas-         ###   ########.fr       */
+/*   Updated: 2024/08/13 16:17:47 by adantas-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include "Hammer.hpp"
 # include <map>
 # include <vector>
+
+class Workshop;
 
 /*
 *	Composição é o ato de construir coisas complexas com coisas simples;
@@ -34,6 +36,7 @@ class Worker
 private:
 	Position _coordonnee;
 	Statistic _stat;
+	bool _employed;
 	std::vector<Tool*> _tools;
 	static std::map<Tool*, Worker*> _helper;
 
@@ -47,6 +50,10 @@ public:
 
 	void removeTool(Tool* tool);
 	void pickTool(Tool* tool);
+	void throwCV(std::vector<Workshop&> workshops);
+	void sendCV(Workshop& workshop);
+	void giveup(Workshop& workshop);
+	void work();
 	Position getCoordonnee() const;
 	Position getCoordonnee();
 	Statistic getStat() const;

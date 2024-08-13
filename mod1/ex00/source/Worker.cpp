@@ -6,7 +6,7 @@
 /*   By: adantas- <adantas-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 11:51:10 by adantas-          #+#    #+#             */
-/*   Updated: 2024/08/13 11:32:34 by adantas-         ###   ########.fr       */
+/*   Updated: 2024/08/13 12:35:28 by adantas-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,19 +57,19 @@ Worker& Worker::operator=(const Worker& that)
 void Worker::pickTool(Tool* tool)
 {
 	if (tool == NULL) {
-		std::cerr << "No tool to pickup!" << std::endl;
+		// std::cerr << "No tool to pickup!" << std::endl;
 		return;
 	}
 
 	std::map<Tool*, Worker*>::iterator it = this->_helper.find(tool);
 	if (it == this->_helper.end()) {
-		std::cerr << "Tool picked!" << std::endl;
+		// std::cerr << "Tool picked!" << std::endl;
 		this->_helper.insert(std::pair<Tool*, Worker*>(tool, this));
 		this->_tools.push_back(tool);
 	}
 
 	else {
-		std::cerr << "Hey bro, i need this tool!" << std::endl;
+		// std::cerr << "Hey bro, i need this tool!" << std::endl;
 		it->second->removeTool(tool);
 		this->_helper.insert(std::pair<Tool*, Worker*>(tool, this));
 		this->_tools.push_back(tool);
@@ -79,7 +79,7 @@ void Worker::pickTool(Tool* tool)
 
 void Worker::removeTool(Tool* tool)
 {
-	std::cerr << "Tool removed!" << std::endl;
+	// std::cerr << "Tool removed!" << std::endl;
 	this->_helper.erase(tool);
 	for (std::vector<Tool*>::iterator it = this->_tools.begin(); it != this->_tools.end(); ++it) {
 		if (*it == tool) {
@@ -91,13 +91,13 @@ void Worker::removeTool(Tool* tool)
 
 std::vector<Tool*> Worker::getTools() const
 {
-	std::cerr << "Worker const tool getter!" << std::endl;
+	// std::cerr << "Worker const tool getter!" << std::endl;
 	return this->_tools;
 }
 
 std::vector<Tool*> Worker::getTools()
 {
-	std::cerr << "Worker tool getter!" << std::endl;
+	// std::cerr << "Worker tool getter!" << std::endl;
 	return this->_tools;
 }
 
