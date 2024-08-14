@@ -6,7 +6,7 @@
 /*   By: adantas- <adantas-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 12:30:21 by adantas-          #+#    #+#             */
-/*   Updated: 2024/08/14 13:22:53 by adantas-         ###   ########.fr       */
+/*   Updated: 2024/08/14 17:54:26 by adantas-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,15 @@
 # include <list>
 
 /*
-*	Worker need "work" method, but only if he is in a workshop
-*	Workshop has a method "executeWorkDay"
+*	Associação é o ato de relacionar 2 clases com uma ou mais instancias.
+*	Diferente da agregaçãa, na Associação uma classe pode ser criada unicamente
+*		para trabalhar com outra.
+*	Pense da seguinte forma: Um cliente está ciente da garçonete que o serviu e
+*		a garçonete está ciente do cliente que ela serviu, a garçonete tem uma
+*		Associação com esse cliente através do trabalho, porém a garçonete não
+*		depende unicamente desse cliente e pode servir 0 ou mais clientes ao
+*		mesmo tempo e vice-versa.
+*	source: https://www.learncpp.com/cpp-tutorial/association/
 */
 class Workshop
 {
