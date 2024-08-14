@@ -6,7 +6,7 @@
 /*   By: adantas- <adantas-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/12 18:02:16 by adantas-          #+#    #+#             */
-/*   Updated: 2024/08/13 12:34:17 by adantas-         ###   ########.fr       */
+/*   Updated: 2024/08/14 15:36:35 by adantas-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,29 +15,40 @@
 Tool::Tool():
 _numberOfUses(0)
 {
-	// std::cerr << "Tool created!" << std::endl;
+#ifdef DEBUG
+	std::cerr << "Tool created!" << std::endl;
+#endif
 }
 
 Tool::Tool(size_t uses):
 _numberOfUses(uses)
 {
-	// std::cerr << "Tool with values created!" << std::endl;
+#ifdef DEBUG
+	std::cerr << "Tool with values created!" << std::endl;
+#endif
 }
 
 size_t Tool::getNbrOfUses() const
 {
-	// std::cerr << "nbrOfUses const getter!" << std::endl;
+#ifdef DEBUG
+	std::cerr << "nbrOfUses const getter!" << std::endl;
+#endif
 	return this->_numberOfUses;
 }
 
 size_t Tool::getNbrOfUses()
 {
-	// std::cerr << "nbrOfUses getter!" << std::endl;
+#ifdef DEBUG
+	std::cerr << "nbrOfUses getter!" << std::endl;
+#endif
 	return this->_numberOfUses;
 }
 
 std::ostream& operator<<(std::ostream& os, const Tool& that)
 {
+#ifdef DEBUG
+	std::cerr << "Tool <<operator!" << std::endl;
+#endif
 	os << "Uses: " << that.getNbrOfUses() << std::endl;
 	return os;
 }

@@ -6,7 +6,7 @@
 /*   By: adantas- <adantas-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 11:13:05 by adantas-          #+#    #+#             */
-/*   Updated: 2024/08/13 16:17:47 by adantas-         ###   ########.fr       */
+/*   Updated: 2024/08/14 17:33:30 by adantas-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 # include "Position.hpp"
 # include "Statistic.hpp"
 # include "ATool.hpp"
-# include "Shovel.hpp"
-# include "Hammer.hpp"
 # include <map>
 # include <vector>
 
@@ -38,28 +36,40 @@ private:
 	Statistic _stat;
 	bool _employed;
 	std::vector<Tool*> _tools;
+	std::vector<Workshop*> _workplaces;
 	static std::map<Tool*, Worker*> _helper;
+
+	friend class Workshop;
 
 public:
 	Worker();
 	Worker(const Worker& that);
-	Worker(Position pos, Statistic stat, std::vector<Tool*> tools);
+	Worker(
+		Position pos,
+		Statistic stat,
+		std::vector<Tool*> tools,
+		std::vector<Workshop*> workplaces
+	);
 	~Worker();
 
 	Worker& operator=(const Worker& that);
 
 	void removeTool(Tool* tool);
 	void pickTool(Tool* tool);
-	void throwCV(std::vector<Workshop&> workshops);
-	void sendCV(Workshop& workshop);
-	void giveup(Workshop& workshop);
+	void throwCV(std::vector<Workshop*> workshops);
+	void sendCV(Workshop* workshop);
+	void giveup(Workshop* workshop);
 	void work();
 	Position getCoordonnee() const;
 	Position getCoordonnee();
 	Statistic getStat() const;
 	Statistic getStat();
+	bool getEmployed() const;
+	bool getEmployed();
 	std::vector<Tool*> getTools() const;
 	std::vector<Tool*> getTools();
+	std::vector<Workshop*> getWorkplaces() const;
+	std::vector<Workshop*> getWorkplaces();
 };
 
 std::ostream& operator<<(std::ostream& os, const Worker& that);

@@ -6,7 +6,7 @@
 /*   By: adantas- <adantas-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 12:30:21 by adantas-          #+#    #+#             */
-/*   Updated: 2024/08/13 15:35:53 by adantas-         ###   ########.fr       */
+/*   Updated: 2024/08/14 13:22:53 by adantas-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,10 @@
 # include "Worker.hpp"
 # include <list>
 
+/*
+*	Worker need "work" method, but only if he is in a workshop
+*	Workshop has a method "executeWorkDay"
+*/
 class Workshop
 {
 private:

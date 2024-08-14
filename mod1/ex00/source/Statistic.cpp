@@ -6,7 +6,7 @@
 /*   By: adantas- <adantas-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/08 10:58:49 by adantas-          #+#    #+#             */
-/*   Updated: 2024/08/08 13:58:39 by adantas-         ###   ########.fr       */
+/*   Updated: 2024/08/14 16:16:05 by adantas-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,30 +16,40 @@
 Statistic::Statistic():
 _level(1), _exp(0)
 {
-	// std::cerr << "New Statistic created!" << std::endl;
+#ifdef DEBUG
+	std::cerr << "New Statistic created!" << std::endl;
+#endif
 }
 
 Statistic::Statistic(const Statistic& that):
 _level(1), _exp(0)
 {
-	// std::cerr << "New Statistic copied!" << std::endl;
+#ifdef DEBUG
+	std::cerr << "New Statistic copied!" << std::endl;
+#endif
 	*this = that;
 }
 
 Statistic::Statistic(const int level, const int exp):
 _level(level), _exp(exp)
 {
-	// std::cerr << "New Statistic with values!" << std::endl;
+#ifdef DEBUG
+	std::cerr << "New Statistic with values!" << std::endl;
+#endif
 }
 
 Statistic::~Statistic()
 {
-	// std::cerr << "Statistic deleted!" << std::endl;
+#ifdef DEBUG
+	std::cerr << "Statistic deleted!" << std::endl;
+#endif
 }
 
 Statistic& Statistic::operator=(const Statistic& that)
 {
-	// std::cerr << "Statistic =operator!" << std::endl;
+#ifdef DEBUG
+	std::cerr << "Statistic =operator!" << std::endl;
+#endif
 	if (this != &that) {
 		this->_level = that._level;
 		this->_exp = that._exp;
@@ -50,32 +60,42 @@ Statistic& Statistic::operator=(const Statistic& that)
 
 int Statistic::getLevel() const
 {
-	// std::cerr << "Statistic const level getter!" << std::endl;
+#ifdef DEBUG
+	std::cerr << "Statistic const level getter!" << std::endl;
+#endif
 	return this->_level;
 }
 
 int Statistic::getLevel()
 {
-	// std::cerr << "Statistic level getter!" << std::endl;
+#ifdef DEBUG
+	std::cerr << "Statistic level getter!" << std::endl;
+#endif
 	return this->_level;
 }
 
 int Statistic::getExp() const
 {
-	// std::cerr << "Statistic const exp getter!" << std::endl;
+#ifdef DEBUG
+	std::cerr << "Statistic const exp getter!" << std::endl;
+#endif
 	return this->_exp;
 }
 
 int Statistic::getExp()
 {
-	// std::cerr << "Statistic exp getter!" << std::endl;
+#ifdef DEBUG
+	std::cerr << "Statistic exp getter!" << std::endl;
+#endif
 	return this->_exp;
 }
 
 std::ostream& operator<<(std::ostream& os, const Statistic& that)
 {
 	std::stringstream ss;
-	// std::cerr << "Statistic <<operator!" << std::endl;
+#ifdef DEBUG
+	std::cerr << "Statistic <<operator!" << std::endl;
+#endif
 	ss << "Statistic attributes:" << std::endl;
 	ss << "Level: " << that.getLevel() << " Exp: " << that.getExp()
 		<< std::endl;
